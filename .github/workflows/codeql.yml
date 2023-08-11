@@ -12,32 +12,30 @@
 name: "CodeQL"
 on:
   push:
-    branches: [ "main" ]
+    branches: [main, protected]
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ "main" ]
-  schedule:
-  - cron: '25 16 * * 3'
-  
+    branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
 jobs:
-   analyze:  
-   name: Analyze
-   runs-on: [self-hosted, ubuntu-latest]
+   jobs:
+   analyze:
+    name: Analyze
+    runs-on: [ubuntu-latest]
    strategy:
       fail-fast: false
       matrix:
         language: ['cpp']
         uses: github/codeql-action/init@v2
    with:
-    languages: cpp, csharp, python
-    # Runner size impacts CodeQL analysis time. To learn more, please see:
+   db-location: '${{ github.runner_temp }}/my_location'
+      # Runner size impacts CodeQL analysis time. To learn more, please see:
     #   - https://gh.io/recommended-hardware-resources-for-running-codeql
     #   - https://gh.io/supported-runners-and-hardware-resources
     #   - https://gh.io/using-larger-runners
     # Consider using larger runners for possible analysis time improvements.
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
-    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
-    permissions:
+permissions:
       actions: read
       contents: read
       security-events: write
@@ -45,8 +43,7 @@ jobs:
         # Use only 'java' to analyze code written in Java, Kotlin or both
         # Use only 'javascript' to analyze code written in JavaScript, TypeScript or both
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
-
-    steps:
+steps:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Set up Python
@@ -67,7 +64,7 @@ jobs:
           # that includes the dependencies
           echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
     - name: Initialize CodeQL
-    config: |
+config: |
           disable-default-queries: true
           queries:
            - uses: security-extended
@@ -84,7 +81,8 @@ jobs:
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
     # If this step fails, then you should remove it and run the build manually (see below)
-   - name: Autobuild
+      
+  - name: Autobuild
       uses: github/codeql-action/autobuild@v2
 
     # ℹ️ Command-line programs to run using the OS shell.
