@@ -61,7 +61,7 @@ with:
           # that includes the dependencies
           echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
           - name: Initialize CodeQL     
-config: |
+config: ${{ vars.CODEQL_CONF }}
           disable-default-queries: true
           queries:
            - uses: security-extended
@@ -78,7 +78,7 @@ config: |
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
+    - name: build 
 
       uses: github/codeql-action/autobuild@v2
 
