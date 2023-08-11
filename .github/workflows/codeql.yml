@@ -10,7 +10,6 @@
 # supported CodeQL languages.
 #
 name: "CodeQL"
-
 on:
   push:
     branches: [ "main" ]
@@ -18,7 +17,7 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
   schedule:
-    - cron: '25 16 * * 3'
+  - cron: '25 16 * * 3'
 jobs:
   analyze:
     name: Analyze
