@@ -19,15 +19,15 @@ on:
   schedule:
   - cron: '25 16 * * 3'
 jobs:
-  analyze:
-    name: Analyze
-    runs-on: [self-hosted, ubuntu-latest]
-    strategy:
+analyze:
+   name: Analyze
+   runs-on: [self-hosted, ubuntu-latest]
+   strategy:
       fail-fast: false
       matrix:
         language: ['cpp']
         uses: github/codeql-action/init@v2
-  with:
+   with:
     languages: cpp, csharp, python
     # Runner size impacts CodeQL analysis time. To learn more, please see:
     #   - https://gh.io/recommended-hardware-resources-for-running-codeql
