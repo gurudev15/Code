@@ -18,6 +18,7 @@ on:
     branches: [ "main" ]
   schedule:
   - cron: '25 16 * * 3'
+  
 jobs:
    analyze:  
    name: Analyze
