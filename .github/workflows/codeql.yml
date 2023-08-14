@@ -62,7 +62,11 @@ with:
           echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
           - name: Initialize CodeQL     
 config: ${{ vars.CODEQL_CONF }}
-          disable-default-queries:true
+disable-default-queries: true
+schema:
+               type: object
+               $ref: '#/definitions/Token'
+
 queries:  
            - uses: security-extended
 query-filters:
@@ -92,8 +96,7 @@ uses: github/codeql-action/autobuild@v2
     #     echo "Run, Build Application using script"
     #     ./location_of_script_within_repo/buildscript.sh
     
-  -name: Perform CodeQL Analysis
-
+- name: Perform CodeQL Analysis
 uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
